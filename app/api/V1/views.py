@@ -34,3 +34,15 @@ def post_party():
               "message": "some required fields missing"}]})), 400
 
 
+@app_route.route('/parties/<int:id>', methods=['GET'])  # pass the party id in the url
+def get_single_political_party(id):
+    """This endpoint returns a single political party"""
+    single_political_party = party.getting_single_party(id)
+    return make_response(jsonify(
+        {
+            "status": 200,
+            "data": [{
+                "id": single_political_party[0]["id"],  # return the first id  found in the list
+                "name": single_political_party[0]["name"],
+                "logoUrl": single_political_party[0]["logoUrl"]
+            }]})), 200
