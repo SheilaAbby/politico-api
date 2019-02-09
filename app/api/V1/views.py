@@ -31,6 +31,6 @@ def post_party():
         return make_response(jsonify({
             "status": 400,
             "data": [{
-              "message": "some required fields missing"}]})), 400
+              "message": " please fill all fields"}]})), 400
 
 
