@@ -46,3 +46,13 @@ def get_single_political_party(id):
                 "name": single_political_party[0]["name"],
                 "logoUrl": single_political_party[0]["logoUrl"]
             }]})), 200
+
+
+@app_route.route('/parties', methods=['GET'])
+def get_getting_all_parties():
+    parties = party.getting_all_parties()  # class object 'party' calling the class method
+
+    return make_response(jsonify({
+        "status": 200,   # 200 status code for OK
+        "data": parties
+    })), 200

@@ -28,19 +28,9 @@ class PartyModel:
         single_party = [party for party in self.db if party['id'] == id]
         return single_party
 
+    def getting_all_parties(self):
+        """
 
-
-
-
-
-
-
-
-
-
-# class OfficeModel:
-#     def __init__(self, name, type):
-#         self.name =name
-#         self.type = type
-#
-#         def creating
+        :return: a list of all political parties
+        """
+        return party_list
