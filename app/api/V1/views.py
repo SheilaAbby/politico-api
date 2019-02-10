@@ -145,3 +145,27 @@ def get_single_office(id):
     })), 200
 
 
+@app_route.route('/offices/<int:office_id>', methods=['PATCH'])  # PATCH for  partial updates
+def edit_an_office_name(office_id):
+    """
+    This endpoint enable admin users to fetch for a specific office and update its name
+    :param office_id:
+    :return: new updated office name
+    """
+    data = request.get_json()  # data is a parsed json data
+    name_data = data.get('name')  # get the office name from the parsed Json
+
+    new_office = office.editing_an_office(office_id, name_data)
+    return make_response(jsonify({"status": 200,
+                                  "data": [{
+                                      "id": office_id,
+                                      "name": new_office[0]["name"],
+                                      "message": "Success, Office name Updated!"
+                                  }]})), 200
+
+
+
+
+
+
+
