@@ -34,3 +34,11 @@ class PartyModel:
         :return: a list of all political parties
         """
         return party_list
+
+    def editing_party(self, id, name):
+        """update party information for particular ID"""
+
+        party_to_edit_name = [party for party in party_list if party['id'] == id]   
+        party_to_edit_name[0]['name'] = name
+
+        return party_to_edit_name
