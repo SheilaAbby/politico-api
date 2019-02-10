@@ -74,3 +74,13 @@ def edit_political_party(party_id):
                                           "message": "successfully updated name"
                                       }]})), 200
 
+
+@app_route.route('/parties/<int:id>', methods=['DELETE'])
+def delete_political_party(id):
+    party.deleting_a_party(id)
+    return make_response(jsonify({
+        "status": 200,
+        "data": [{
+            "message": "Successfully deleted party"
+        }]
+    })), 200

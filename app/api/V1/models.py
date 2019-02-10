@@ -42,3 +42,8 @@ class PartyModel:
         party_to_edit_name[0]['name'] = name
 
         return party_to_edit_name
+
+    def deleting_a_party(self, id):  # search for a party to delete by id
+        self.db.pop(id - 1)  # takes a single argument (index) and removes the item present at that index.
+        return self.db
+
