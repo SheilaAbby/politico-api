@@ -8,6 +8,7 @@ party = PartyModel()  # creates an instance of the PartyModel class
 office = OfficeModel()
 
 
+#  creating political parties CRUD endpoints
 @app_route.route('/parties', methods=['POST'])
 def post_party():
     """"This endpoint enables admin user
@@ -88,6 +89,7 @@ def delete_political_party(id):
     })), 200
 
 
+# creating office CRUD endpoints
 @app_route.route('/offices', methods=['POST'])
 def post_office():
     """
@@ -114,3 +116,12 @@ def post_office():
             "status": 400,
             "data": [{
               "message": " please fill all fields"}]})), 400
+
+
+@app_route.route('/offices', methods=['GET'])
+def get_all_offices():
+    offices = office.getting_all_offices()
+    return make_response(jsonify({
+        "status": 200,
+        "data": offices
+    }))
