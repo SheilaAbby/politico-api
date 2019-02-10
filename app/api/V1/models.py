@@ -83,8 +83,15 @@ class OfficeModel:
         """
         return office_list
 
-    def getting_single_office(self):
-        pass
+    def getting_single_office(self, id):
+        """
+
+        :param id:
+        :return: a single office
+        """
+        single_office = [office for office in office_list if office['id'] == id]
+        return single_office
+
 
     def editing_a_office(self):
         pass
