@@ -164,6 +164,15 @@ def edit_an_office_name(office_id):
                                   }]})), 200
 
 
+@app_route.route('/offices/<int:office_id>', methods=['DELETE'])
+def delete_an_office(office_id):
+    office.deleting_a_office(office_id)
+    return make_response(jsonify({
+        "status": 200,
+        "data": [{
+            "message": "Successfully deleted Office"
+        }]
+    })), 200
 
 
 

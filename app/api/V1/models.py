@@ -103,8 +103,12 @@ class OfficeModel:
 
         return office_to_edit_name
 
-    def deleting_a_office(self):
-        pass
+    def deleting_a_office(self, id):
+        """
 
-
+        :param id: id of the office to be deleted
+        :return: office_list without the office deleted
+        """
+        self.db.pop(id - 1)  # takes a single argument (index) and removes the item present at that index.
+        return self.db
 
