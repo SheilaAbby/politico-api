@@ -1,7 +1,7 @@
 
 
 party_list = []  # empty party list
-
+office_list = [] # empty office list
 
 class PartyModel:
     """This class represents the party model data"""
@@ -46,4 +46,33 @@ class PartyModel:
     def deleting_a_party(self, id):  # search for a party to delete by id
         self.db.pop(id - 1)  # takes a single argument (index) and removes the item present at that index.
         return self.db
+
+
+class OfficeModel:
+    """
+    This class handles the Office data model
+    """
+
+    def __init__(self):
+        """
+        A constructor
+        """
+        self.db = office_list
+
+    def creating_office(self):
+        pass
+
+    def getting_all_offices(self):
+        pass
+
+    def getting_single_office(self):
+        pass
+
+    def editing_a_office(self):
+        pass
+    
+    def deleting_a_office(self):
+        pass
+
+
 
