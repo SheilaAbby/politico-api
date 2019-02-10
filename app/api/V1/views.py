@@ -125,3 +125,23 @@ def get_all_offices():
         "status": 200,
         "data": offices
     }))
+
+
+@app_route.route('/offices/<int:id>', methods=['GET'])
+def get_single_office(id):
+    """
+    This endpoint enables a user to get a single office item by an id
+    :param id:
+    :return: specific office item
+    """
+    single_office = office.getting_single_office(id)
+    return make_response(jsonify({
+        "status": 200,
+        "data": [{
+            "id": single_office[0]['id'],
+            "type": single_office[0]['type'],
+            "name": single_office[0]['name']
+        }]
+    })), 200
+
+
