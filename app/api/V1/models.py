@@ -1,6 +1,7 @@
 
 
 party_list = []  # empty party list
+office_list = []
 
 
 class PartyModel:
@@ -46,4 +47,46 @@ class PartyModel:
     def deleting_a_party(self, id):  # search for a party to delete by id
         self.db.pop(id - 1)  # takes a single argument (index) and removes the item present at that index.
         return self.db
+
+
+class OfficeModel:
+    """
+    This class handles the Office data model
+    """
+
+    def __init__(self):
+        """
+        A constructor
+        """
+        self.db = office_list  # empty offices list
+
+    def creating_office(self, office_type, name):
+        """
+        Creates an office
+        :param office_type: can be senate_office,national_government,county_office,local_government
+        :param name: can be 'office of the senate', 'office of the president', 'MCA','Office of the Governor' etc
+        :return: a new list with the office added
+        """
+        new_political_office = {
+            "id": len(self.db) + 1,
+            "name": name,
+            "type": office_type
+        }
+
+        self.db.append(new_political_office)
+        return new_political_office
+
+    def getting_all_offices(self):
+        pass
+
+    def getting_single_office(self):
+        pass
+
+    def editing_a_office(self):
+        pass
+
+    def deleting_a_office(self):
+        pass
+
+
 
