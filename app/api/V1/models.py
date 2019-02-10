@@ -92,9 +92,16 @@ class OfficeModel:
         single_office = [office for office in office_list if office['id'] == id]
         return single_office
 
+    def editing_an_office(self, id, name):
 
-    def editing_a_office(self):
-        pass
+        """
+        :param id: id of the specific office name to be edited
+        :return: edited office details
+        """
+        office_to_edit_name = [office for office in office_list if office['id'] == id]
+        office_to_edit_name[0]['name'] = name
+
+        return office_to_edit_name
 
     def deleting_a_office(self):
         pass
