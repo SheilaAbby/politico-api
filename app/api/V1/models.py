@@ -77,7 +77,11 @@ class OfficeModel:
         return new_political_office
 
     def getting_all_offices(self):
-        pass
+        """
+
+        :return: a list of all offices
+        """
+        return office_list
 
     def getting_single_office(self):
         pass
