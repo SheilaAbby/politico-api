@@ -1,7 +1,8 @@
 
 
 party_list = []  # empty party list
-office_list = [] # empty office list
+office_list = []
+
 
 class PartyModel:
     """This class represents the party model data"""
@@ -57,10 +58,23 @@ class OfficeModel:
         """
         A constructor
         """
-        self.db = office_list
+        self.db = office_list  # empty offices list
 
-    def creating_office(self):
-        pass
+    def creating_office(self, office_type, name):
+        """
+        Creates an office
+        :param office_type: can be senate_office,national_government,county_office,local_government
+        :param name: can be 'office of the senate', 'office of the president', 'MCA','Office of the Governor' etc
+        :return: a new list with the office added
+        """
+        new_political_office = {
+            "id": len(self.db) + 1,
+            "name": name,
+            "type": office_type
+        }
+
+        self.db.append(new_political_office)
+        return new_political_office
 
     def getting_all_offices(self):
         pass
@@ -70,7 +84,7 @@ class OfficeModel:
 
     def editing_a_office(self):
         pass
-    
+
     def deleting_a_office(self):
         pass
 

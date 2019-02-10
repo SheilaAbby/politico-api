@@ -1,10 +1,11 @@
 from flask import Blueprint, request, make_response, jsonify
 
-from app.api.V1.models import PartyModel
+from app.api.V1.models import PartyModel, OfficeModel
 
 # make a Blueprint route called app_route
 app_route = Blueprint('politico-v1', __name__)
 party = PartyModel()  # creates an instance of the PartyModel class
+office = OfficeModel()
 
 
 @app_route.route('/parties', methods=['POST'])
@@ -23,7 +24,8 @@ def post_party():
             "status": 201,
             "data": [{
               "id": new_party_data["id"],
-              "name": new_party_data["name"]
+              "name": new_party_data["name"],
+              "logoUrl": new_party_data["logoUrl"]
             }],
             })), 201
 
@@ -84,3 +86,31 @@ def delete_political_party(id):
             "message": "Successfully deleted party"
         }]
     })), 200
+
+
+@app_route.route('/offices', methods=['POST'])
+def post_office():
+    """
+    Endpoint enables an admin user to  create an office
+    :return: added office details with a success message
+    """
+    office_data = request.get_json()  # parse json
+    office_type = office_data.get('type')
+    name = office_data.get('name')
+
+    if name and office_type:  # when both fields are filled return a 201, success code
+        new_office_data = office.creating_office(name, office_type)
+        return make_response(jsonify({
+            "status": 201,
+            "data": [{
+              "id": new_office_data["id"],
+              "name": new_office_data["name"],
+              "type": new_office_data["type"]
+            }],
+            })), 201
+
+    else:          # else if fields are blank return a 400, bad request
+        return make_response(jsonify({
+            "status": 400,
+            "data": [{
+              "message": " please fill all fields"}]})), 400
