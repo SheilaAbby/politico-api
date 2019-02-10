@@ -56,3 +56,21 @@ def get_getting_all_parties():
         "status": 200,   # 200 status code for OK
         "data": parties
     })), 200
+
+
+@app_route.route('/parties/<int:party_id>', methods=['PATCH'])
+def edit_political_party(party_id):
+    """"This route enables admin user
+      - to edit political party passing party id as parameter"""
+
+    data = request.get_json() # data is a parsed json data
+    name_data = data.get('name') # get the party name from the parsed Json
+
+    new_info = party.editing_party(party_id, name_data)
+    return make_response(jsonify({"status": 200,
+                                  "data": [{
+                                          "id": party_id,
+                                          "name": new_info[0]["name"],
+                                          "message": "successfully updated name"
+                                      }]})), 200
+
