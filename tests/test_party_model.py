@@ -18,7 +18,6 @@ class TestParty(unittest.TestCase):
                 "name": "jubilee",
                 "hqaddress": "hqaddress",
                 "logoUrl": "localhost"
-
         }
         self.da = { 
                 "id":1,
