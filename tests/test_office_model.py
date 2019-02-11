@@ -15,12 +15,12 @@ class TestParty(unittest.TestCase):
         self.client = self.app.test_client()
         self.data = {  # office data
                 "id":1,
-                "type":"senate"
+                "type":"senate",
                 "name": "office of the senator",
         }
         self.da = { 
                 "id":1,
-                "type":"senate"
+                "type":"senate",
                 "name": "office of the senator",
             }
 
