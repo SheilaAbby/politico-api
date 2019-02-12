@@ -45,7 +45,7 @@ class TestParty(unittest.TestCase):
         response_data = self.client.get(path, content_type="application/json")
         self.assertEqual(response_data.status_code, 200)
 
-    def test_editing_a_office(self):
+    def test_editing_an_office(self):
         office = self.client.post(path='/offices', data=json.dumps(self.data), content_type="application/json")
         id = int(office.get_json('id'))
         name = office.get_json('name')
