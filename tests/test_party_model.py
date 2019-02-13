@@ -32,7 +32,7 @@ class TestParty(unittest.TestCase):
                                          headers={'Content-Type': 'application/json'})
         self.assertEqual(response_data.status_code, 201)
         self.assertIn(1, int(response_data.data))
-        self.assertIn('jubilee', str(response_data.data))
+        self.assertIn('jubilee', str(response_data.data)) # check value to be a string
         self.assertIn('localhost', str(response_data.data))
         self.assertEqual(response_data.get_json['status'], 201)
 

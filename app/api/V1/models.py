@@ -11,18 +11,29 @@ class PartyModel:
         self.db = party_list
 
     # this method handles creation of a new party and saving it to party list
-    def creating_party(self, new_party_name, new_party_hdaddress, new_party_logo):
+    def creating_party(self, data):
+
         """creates new political party"""
         new_political_party = {
             "id": len(self.db) + 1,
-            "name": new_party_name,
-            "hqAddress": new_party_hdaddress,
-            "logoUrl": new_party_logo
+            "name": data.get('name'),
+            "hqAddress": data.get('hqaddress'),
+            "logoUrl": data.get('logourl')
 
         }
-
         self.db.append(new_political_party)  # add to the party list
         return new_political_party
+
+    def check_party_exists(self, key, data):
+        """
+        Check that data being posted does not exist
+        :param key:
+        :param data:
+        :return:
+        """
+        party_exists = [party for party in party_list if data == party[key]] # party_exists array stores similar  values
+        return len(party_exists) > 0  # if there exists similar values this statement is True,
+
 
     def getting_single_party(self, id):
         """finds a single party by it id and returns it"""
