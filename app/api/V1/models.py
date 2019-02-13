@@ -3,6 +3,21 @@
 party_list = []  # empty party list
 office_list = []
 
+users = {           # a nested dictionary
+
+    "id": 32887889,
+    "firstname": "Abigael",
+    "lastname": "Kioko",
+    "othername": "Sheila",
+    "email": "sheila@gmail.com",
+    "phoneNumber": "0700000001",
+    "usertype": {
+        "isadmin": 1,
+        "voter": 2,
+        "candidate": 3
+        }
+ }
+
 
 class PartyModel:
     """This class represents the party model data"""
@@ -122,4 +137,31 @@ class OfficeModel:
         """
         self.db.pop(id - 1)  # takes a single argument (index) and removes the item present at that index.
         return self.db
+
+
+class UserModel:
+    def __init__(self):
+        self.db = users
+
+    def signup_user(self, data):
+        """
+        process of registering a user to the system.only non admins register
+        :param data:
+        :return:
+        """
+        new_user = {
+            "id": data.get('id'),
+            "firstname": data.get('firstname'),
+            "lastname": data.get('lastname'),
+            "othername": data.get('othername'),
+            "email": data.get('email'),
+            "phoneNumber": data.get('phoneNumber'),
+            "usertype": {
+                "isadmin": 1,
+                "voter": 2,
+                "candidate": 3
+            }
+
+        }
+
 
