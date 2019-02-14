@@ -3,7 +3,7 @@ from flask import Blueprint, request, make_response, jsonify
 from app.api.V1.models import PartyModel, OfficeModel
 
 # make a Blueprint route called app_route
-app_route = Blueprint('politico-v1', __name__)
+app_route = Blueprint('politico-v1', __name__, url_prefix='/api/v1')
 party = PartyModel()  # creates an instance of the PartyModel class
 office = OfficeModel()
 
