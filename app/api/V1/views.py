@@ -16,18 +16,19 @@ def post_party():
 
     data = request.get_json()
     name = data.get('name')
-    hdaddress = data.get('hqAddress')
     logourl = data.get('logoUrl')
+    hqaddress = data.get('hqAddress')
 
-    if name and hdaddress and logourl:  # when both fields are filled return a 201, success code
-        new_party_data = party.creating_party(name, hdaddress, logourl)
+    if name and hqaddress and logourl:  # when both fields are filled return a 201, success code
+        new_party_data = party.creating_party(name, logourl, hqaddress)
         return make_response(jsonify({
             "status": 201,
-            "message":"party created",
+            "message": "party created",
             "data": [{
               "id": new_party_data["id"],
               "name": new_party_data["name"],
-              "logoUrl": new_party_data["logoUrl"]
+              "logoUrl": new_party_data["logoUrl"],
+              "hqAddress": new_party_data["hqAddress"]
             }],
             })), 201
 
@@ -102,13 +103,14 @@ def post_office():
     name = office_data.get('name')
 
     if name and office_type:  # when both fields are filled return a 201, success code
-        new_office_data = office.creating_office(name, office_type)
+        new_office_data = office.creating_office(office_type, name)
         return make_response(jsonify({
             "status": 201,
             "data": [{
               "id": new_office_data["id"],
+              "type": new_office_data["type"],
               "name": new_office_data["name"],
-              "type": new_office_data["type"]
+
             }],
             })), 201
 
@@ -136,12 +138,18 @@ def get_single_office(id):
     :return: specific office item
     """
     single_office = office.getting_single_office(id)
-    return make_response(jsonify({
-        "status": 200,
-        "data": [{
-            "id": single_office[0]['id'],
-            "type": single_office[0]['type'],
-            "name": single_office[0]['name']
-        }]
-    })), 200
+    if single_office:  # if an office with the passed id exists
+        return make_response(jsonify({
+            "status": 200,
+            "data": [{
+                "id": single_office[0]['id'],
+                "type": single_office[0]['type'],
+                "name": single_office[0]['name']
+                }]
+            })), 200
 
+    else:  # the is does not exist, throw 400 error
+        return make_response(jsonify({
+            "status": 400,
+            "msg": "An office with that ID does not exist"
+        }))

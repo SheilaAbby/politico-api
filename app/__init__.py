@@ -5,14 +5,12 @@ from configs.config import app_config
 import os
 
 
-def create_app(config_name):  # creating the application in a function
+def create_app():  # creating the application in a function
     """
     creates the app
     :return:
     """
-    app = Flask(__name__, instance_path='/configs/config.py')
-    app.config.from_object(app_config[config_name])
-    app.config.from_pyfile('config.py')
+    app = Flask(__name__)
     app.register_blueprint(app_route)
 
     return app
