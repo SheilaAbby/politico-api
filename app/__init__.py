@@ -1,6 +1,6 @@
 from flask import Flask, current_app
 from app.api.V1.views import app_route
-from instance.config import app_config
+from configs.config import app_config
 #  local imports
 
 
