@@ -17,6 +17,22 @@ def required_input(input):
         return input
 
 
+def user_type(value):
+    """
+    checks the type of user
+    :param value:
+    :return:
+    """
+    type_list = [1, 2, 3]  # list containing user type values 1-voter 2-admin 3-candidate
+
+    if isinstance(value, int):  # check the passes value is a string
+        if value not in type_list:  # when posting, by default the value passed for user type should be 1
+            raise ValidationError('Unknown User Type')
+        return value
+    elif value:
+        return value
+
+
 def is_valid_id(id_number):
     """
     Validates that the passed id is 8 digits long
@@ -29,34 +45,6 @@ def is_valid_id(id_number):
         return id_number
     elif id_number:
         return id_number
-
-
-def is_admin_user(admin_value):
-    """
-    Function checks the if the passed value is 1 for isadmin field
-    :param admin_value:
-    :return:
-    """
-    if isinstance(admin_value, int):
-        if admin_value != 1:
-            raise ValidationError('Invalid value')
-        return admin_value
-    elif admin_value:
-        return admin_value
-
-
-def is_voter_user(voter_value):
-    """
-    Function checks  if the passed value is 2 for voter field
-    :param voter_value:
-    :return:
-    """
-    if isinstance(voter_value, int):
-        if voter_value != 2:
-            raise ValidationError('Invalid value')
-        return voter_value
-    elif voter_value:
-        return voter_value
 
 
 def is_valid_phone(phone_number):

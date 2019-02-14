@@ -11,11 +11,7 @@ users = {           # a nested dictionary
     "othername": "Sheila",
     "email": "sheila@gmail.com",
     "phoneNumber": "0700000001",
-    "usertype": {
-        "isadmin": 1,
-        "voter": 2,
-        "candidate": 3
-        }
+    "usertype": 1   # 1  is the default value for voter users
  }
 
 
@@ -32,8 +28,8 @@ class PartyModel:
         new_political_party = {
             "id": len(self.db) + 1,
             "name": data.get('name'),
-            "hqAddress": data.get('hqaddress'),
-            "logoUrl": data.get('logourl')
+            "hqaddress": data.get('hqaddress'),
+            "logourl": data.get('logourl')
 
         }
         self.db.append(new_political_party)  # add to the party list
@@ -156,12 +152,10 @@ class UserModel:
             "othername": data.get('othername'),
             "email": data.get('email'),
             "phoneNumber": data.get('phoneNumber'),
-            "usertype": {
-                "isadmin": 1,
-                "voter": 2,
-                "candidate": 3
-            }
+            "isadmin": data.get('usertype')
 
         }
+        self.db.append(new_user)
+        return new_user
 
 

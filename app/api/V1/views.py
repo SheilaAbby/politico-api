@@ -1,11 +1,12 @@
 from flask import Blueprint, request, make_response, jsonify, abort
-from app.api.V1.models import PartyModel, OfficeModel
+from app.api.V1.models import PartyModel, OfficeModel, UserModel
 from utils.schemas import PartySchema
 
 # make a Blueprint route called app_route
 app_route = Blueprint('politico-v1', __name__)
 party = PartyModel()  # creates an instance of the PartyModel class
 office = OfficeModel()
+user = UserModel
 
 
 #  creating political parties CRUD endpoints
@@ -150,4 +151,12 @@ def get_single_office(id):
         }]
     })), 200
 
+
+@app_route.route('/users', methods=['POST'])
+def add_users():
+    """
+    This endpoint handles creating new users
+    :return:
+    """
+    user_req_data = request.get_json()
 
