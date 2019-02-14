@@ -1,7 +1,7 @@
 
 import json
 import unittest
-from run import app
+from app import current_app
 from app.api.V1 import models
 
 
