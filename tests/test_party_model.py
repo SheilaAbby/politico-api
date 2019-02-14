@@ -1,17 +1,11 @@
 
 import json
-import unittest
-from app import current_app
-from app import create_app
-from app.api.V1 import models
-from utils.dummy_data.party_dummy_data import party_1
+from tests.base_test import BaseTest
+from utils.dummy_data.party_dummy_data import party_1, party_to_edit, party_to_delete
 
 
-class TestPartyModel(unittest.TestCase):
+class TestPartyModel(BaseTest):
     """method is used will be used to construct all our test"""
-    def setUp(self):  # acts as a constructor for the tests
-        self.app = create_app()
-        self.client = self.app.test_client()  # test client inbuilt  to run our tests
 
     #  test case for creating a party
     def test_post_party(self):
@@ -20,13 +14,14 @@ class TestPartyModel(unittest.TestCase):
         posted_party = json.loads(response.data.decode('utf-8'))
         self.assertEqual(response.status_code, 201)
         self.assertEqual(posted_party["status"], 201)
-        self.assertEqual(posted_party["data"][0]["name"], "jubilee")
         self.assertEqual(posted_party["data"][0]["logoUrl"], "localhost")
-        self.assertEqual(posted_party["data"][0]["hqAddress"], "PO BOX 445 NB")
 
     def test_get_all_parties(self):
         response_data = self.client.get(path='/api/v1/parties', content_type='application/json')
+        parties = json.loads(response_data.data.decode('utf-8'))
         self.assertEqual(response_data.status_code, 200)
+        # check the 200 ok status after successful fetching
+        self.assertEqual(parties["status"], 200)
 
     def test_get_single_political_party(self):
         response = self.client.get("/api/v1/parties/1", content_type="application/json")
@@ -36,19 +31,18 @@ class TestPartyModel(unittest.TestCase):
         self.assertEqual(single_party["data"][0]["id"], 1)
 
     def test_edit_political_party(self):
-        party = self.client.post(path='/api/v1/parties', data=json.dumps(self.data), content_type="application/json")
-        int_id = int(party.json['id'])
-        path = '/parties/{}/{}'.format(int_id)
-        response_data = self.client.patch(path, data=json.dumps(self.da), content_type='application/json')
-        self.assertEqual(response_data.status_code, 200)
+        response = self.client.get(path='/api/v1/parties/1/name', data=json.dumps(party_to_edit), content_type="application/json")
+        party = json.loads(response.data.decode('utf-8'))
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(party["status"], 200)
+        self.assertEqual(party["data"][0]["message"], "successfully updated name")
 
     def test_delete_political_party(self):
-        party = self.client.post(path='/api/v1/parties', data=json.dumps(self.data), content_type='application/json')
-        int_id = int(party.json['id'])
-        path = '/parties/{}'.format(int_id)
-        response_data = self.client.delete(path, content_type='application/json')
-        self.assertEqual(response_data.status_code, 200)
+        response = self.client.delete(
+            "/api/v1/parties/2", content_type="application/json")
+        result = json.loads(response.data.decode('utf-8'))
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(result["status"], 200)
+        self.assertEqual(result["data"][0]["message"], "delete successful")
 
 
-if __name__ == '__main__':
-    unittest.main()

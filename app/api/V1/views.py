@@ -82,16 +82,33 @@ def edit_political_party(party_id):
 
 @app_route.route('/parties/<int:id>', methods=['DELETE'])
 def delete_political_party(id):
-    party.deleting_a_party(id)
-    return make_response(jsonify({
-        "status": 200,
-        "data": [{
-            "message": "Successfully deleted party"
-        }]
-    })), 200
+    """
+    delete a political party
+    :param id:
+    :return:
+    """
+    # find party by id
+    party_to_delete = party.getting_single_party(id)
+    if party_to_delete:
+        party.deleting_a_party(id)
+        return make_response(jsonify({
+            "status": 200,
+            "data": [{
+                "message": "Successfully deleted party"
+            }]
+        })), 200
+    else:
+        return  make_response(jsonify({
+            "status": 400,
+            "data": [{
+                "message": "Deleted"
+            }]
+        }))
 
 
 # creating office CRUD endpoints
+
+
 @app_route.route('/offices', methods=['POST'])
 def post_office():
     """
