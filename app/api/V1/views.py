@@ -23,6 +23,7 @@ def post_party():
         new_party_data = party.creating_party(name, hdaddress, logourl)
         return make_response(jsonify({
             "status": 201,
+            "message":"party created",
             "data": [{
               "id": new_party_data["id"],
               "name": new_party_data["name"],
@@ -143,5 +144,4 @@ def get_single_office(id):
             "name": single_office[0]['name']
         }]
     })), 200
-
 

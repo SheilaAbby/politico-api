@@ -2,6 +2,7 @@
 
 party_list = []  # empty party list
 office_list = []
+users = {}
 
 
 class PartyModel:
@@ -112,3 +113,24 @@ class OfficeModel:
         self.db.pop(id - 1)  # takes a single argument (index) and removes the item present at that index.
         return self.db
 
+
+class UserModel:
+    def __init__(self):  # constructor
+        self.db = users
+
+    # this method handles creation of a new party and saving it to party list
+    def creating_user(self, user_id, firstname, lastname, othername, email, phonenumber, passporturl,isdmin):
+        """creates new user"""
+        new_user = {
+            "id": user_id,
+            "firstname": firstname ,
+            "lastname": lastname,
+            "othername": othername,
+            "email": email,
+            "phonenumber": phonenumber,
+            "passporturl": passporturl,
+            'isadmin': isdmin
+        }
+
+        self.db.update(new_user)  # add to the party list
+        return new_user
