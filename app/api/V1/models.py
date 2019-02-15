@@ -116,28 +116,6 @@ class OfficeModel:
         return self.db
 
 
-class UserModel:
-    def __init__(self):  # constructor
-        self.db = users
-
-    # this method handles creation of a new party and saving it to party list
-    def creating_user(self, user_id, firstname, lastname, othername, email, phonenumber, passporturl,isdmin):
-        """creates new user"""
-        new_user = {
-            "id": user_id,
-            "firstname": firstname ,
-            "lastname": lastname,
-            "othername": othername,
-            "email": email,
-            "phonenumber": phonenumber,
-            "passporturl": passporturl,
-            'isadmin': isdmin
-        }
-
-        self.db.update(new_user)  # add to the party list
-        return new_user
-
-
 class UserModel(object):
     """
       Model class for user object
@@ -148,9 +126,9 @@ class UserModel(object):
           method to save new user
         """
 
-        data['id'] = generate_id(users)
-        data['password'] = generate_password_hash(data['password'])
-        data['createdOn'] = datetime.now()
+        users['id'] = generate_id(users)
+        users['password'] = generate_password_hash(data['password'])
+        users['createdOn'] = datetime.now()
         data['isAdmin'] = False  # users not admin by default
 
         users.append(data)
