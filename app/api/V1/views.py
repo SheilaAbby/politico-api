@@ -14,7 +14,7 @@ office = OfficeModel()
 def get_index_page():
         return jsonify({
             "status": 200,
-            "message": "WELCOME TO POLITICO-API, VISIT https://politico-app-api.herokuapp.com/api/v1"
+            "message": "WELCOME TO POLITICO-API, VISIT https://politico-api-eletions.herokuapp.com/api/v1"
          })
 #  creating political parties CRUD endpoints
 
