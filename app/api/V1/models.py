@@ -1,8 +1,11 @@
 
+from werkzeug.security import generate_password_hash, check_password_hash
+from utils.generate_id import generate_id
+from datetime import datetime
 
 party_list = []  # empty party list
 office_list = []
-users = {}
+users = []
 
 
 class PartyModel:
@@ -133,3 +136,44 @@ class UserModel:
 
         self.db.update(new_user)  # add to the party list
         return new_user
+
+
+class UserModel(object):
+    """
+      Model class for user object
+    """
+
+    def register(self, data):
+        """
+          method to save new user
+        """
+
+        data['id'] = generate_id(users)
+        data['password'] = generate_password_hash(data['password'])
+        data['createdOn'] = datetime.now()
+        data['isAdmin'] = False  # users not admin by default
+
+        users.append(data)
+        return data
+
+    def check_if_user_exists(self, key, value):
+        """
+         method to check if a user exists
+        """
+
+        existing_user = [user for user in users if value == user[key]]
+        return len(existing_user) > 0  # if false user does not exist
+
+    def find_user_by_national_id(self, key, nationalID):
+        """
+          method to find a user by ID
+        """
+        user = [user for user in users if user['nationalID'] == nationalID]
+        return user[0]  # get the first user to be found with that id
+
+    def check_password(self, hash, password):
+        """
+          method to check if the passwords match
+        """
+
+        return check_password_hash(hash, password)

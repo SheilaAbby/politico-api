@@ -1,6 +1,8 @@
 from flask import Blueprint, request, make_response, jsonify
 
-from app.api.V1.models import PartyModel, OfficeModel
+from app.api.V1.models import PartyModel, OfficeModel, UserModel
+
+from flask.views import MethodView
 
 # make a Blueprint route called app_route
 app_route = Blueprint('politico-v1', __name__, url_prefix='/api/v1')
@@ -8,7 +10,15 @@ party = PartyModel()  # creates an instance of the PartyModel class
 office = OfficeModel()
 
 
+@app_route.route('/index', methods=['GET'])
+def get(self):
+        return jsonify({
+            "status": 200,
+            "message": "WELCOME TO POLITICO-API, VISIT https://politico-app-api.herokuapp.com/api/v1"
+         })
 #  creating political parties CRUD endpoints
+
+
 @app_route.route('/parties', methods=['POST'])
 def post_party():
     """"This endpoint enables admin user
@@ -170,3 +180,4 @@ def get_single_office(id):
             "status": 400,
             "msg": "An office with that ID does not exist"
         }))
+
