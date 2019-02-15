@@ -11,7 +11,9 @@ party_1 = {
 
 party_to_delete = {
     "id": 2,
-
+    "name": "jubilee",
+    "logoUrl": "localhost",
+    "hqAddress": "PO BOX 445 NB"
 }
 
 party_to_edit = {

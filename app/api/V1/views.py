@@ -11,7 +11,7 @@ office = OfficeModel()
 
 
 @app_route.route('/index', methods=['GET'])
-def get(self):
+def get_index_page():
         return jsonify({
             "status": 200,
             "message": "WELCOME TO POLITICO-API, VISIT https://politico-app-api.herokuapp.com/api/v1"
@@ -90,17 +90,18 @@ def edit_political_party(party_id):
                                       }]})), 200
 
 
-@app_route.route('/parties/<int:id>', methods=['DELETE'])
-def delete_political_party(id):
+@app_route.route('/parties/<int:int_id>', methods=['DELETE'])
+def delete_political_party(int_id):
     """
     delete a political party
-    :param id:
+    :param int_id
     :return:
     """
     # find party by id
-    party_to_delete = party.getting_single_party(id)
-    if party_to_delete:
-        party.deleting_a_party(id)
+    party_to_delete = party.getting_single_party(int_id)
+    print(party_to_delete)
+    if party_to_delete:  # if that party exists
+        party.deleting_a_party(int_id)
         return make_response(jsonify({
             "status": 200,
             "data": [{
@@ -108,7 +109,7 @@ def delete_political_party(id):
             }]
         })), 200
     else:
-        return  make_response(jsonify({
+        return make_response(jsonify({
             "status": 400,
             "data": [{
                 "message": "Deleted"

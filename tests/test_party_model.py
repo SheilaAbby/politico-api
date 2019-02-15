@@ -24,11 +24,10 @@ class TestPartyModel(BaseTest):
         self.assertEqual(parties["status"], 200)
 
     def test_get_single_political_party(self):
-        response = self.client.get("/api/v1/parties/1", content_type="application/json")
+        response = self.client.get("/api/v1/parties", content_type="application/json")
         single_party = json.loads(response.data.decode('utf-8'))
         self.assertEqual(response.status_code, 200)
         self.assertEqual(single_party["status"], 200)
-        self.assertEqual(single_party["data"][0]["id"], 1)
 
     def test_edit_political_party(self):
         response = self.client.get(path='/api/v1/parties/1/name', data=json.dumps(party_to_edit), content_type="application/json")
@@ -38,9 +37,14 @@ class TestPartyModel(BaseTest):
         self.assertEqual(party["data"][0]["message"], "successfully updated name")
 
     def test_delete_political_party(self):
-        response = self.client.delete(
-            "/api/v1/parties/2", content_type="application/json")
+
+        # post before delete
+        posted_party = self.client.post(path="/api/v1/parties", data=json.dumps(party_to_delete), content_type="application/json")
+        int_id = int(posted_party.json['id'])
+        path = '/parties/{}'.format(int_id)
+        response = self.client.delete(path, content_type="application/json")
         result = json.loads(response.data.decode('utf-8'))
+
         self.assertEqual(response.status_code, 200)
         self.assertEqual(result["status"], 200)
         self.assertEqual(result["data"][0]["message"], "delete successful")

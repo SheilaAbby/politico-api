@@ -4,7 +4,7 @@ from .base_test import BaseTest
 
 class TestOfficeModel(BaseTest):
 
-    def test_index(self):
+    def test_get_index_page(self):
         """
         tests for landing  route
         """
