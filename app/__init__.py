@@ -3,7 +3,7 @@ from app.api.V1.views import app_route
 from flask_jwt_extended import (JWTManager)
 from instance.config import app_config
 #  local imports
-import os
+from os import environ
 
 
 def create_app(config_name):  # creating the application in a function
@@ -14,7 +14,7 @@ def create_app(config_name):  # creating the application in a function
     app = Flask(__name__, instance_relative_config=True)
     app.config.from_object(app_config[config_name])
     app.config.from_pyfile('config.py')
-    app.secret_key = os.getenv('SECRET_KEY')
+    app.secret_key = environ.get('SECRET_KEY')
 
     # Initialize JWT
     jwt = JWTManager(app)
