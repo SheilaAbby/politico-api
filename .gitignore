@@ -2,8 +2,12 @@
 __pycache__/
 *.py[cod]
 *$py.class
-.vscode/
+
 .pytest_cache/
+
+# vs code stuff
+.vscode
+
 
 # C extensions
 *.so

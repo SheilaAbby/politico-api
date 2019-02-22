@@ -3,6 +3,27 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from utils.generate_id import generate_id
 from datetime import datetime
 
+
+revoked_tokens = []
+
+
+class RevokedTokenModel(object):
+    """
+    Model class for revoked tokens
+    """
+    def add(self, jti):
+        """
+        method to save token id
+        """
+        revoked_tokens.append(jti)
+
+    def is_blacklisted(self, jti):
+        """
+        method to check if token id is blacklisted
+        """
+        return bool(jti in revoked_tokens)
+
+
 party_list = []  # empty party list
 office_list = []
 users = []
@@ -123,22 +144,20 @@ class UserModel(object):
 
     def register(self, data):
         """
-          method to save new user
+          method to register a new user
         """
+        data['id'] = generate_id(users)  # get the id
+        data['password'] = generate_password_hash('password')  # generate pass
+        data['createdOn']: datetime.now()  # current time
+        data['isAdmin']: False  # by default isAdmin is false
 
-        users['id'] = generate_id(users)
-        users['password'] = generate_password_hash(data['password'])
-        users['createdOn'] = datetime.now()
-        data['isAdmin'] = False  # users not admin by default
-
-        users.append(data)
+        users.append(data)  # update the empty dict with new data
         return data
 
     def check_if_user_exists(self, key, value):
         """
-         method to check if a user exists
+         checks if a user exists - match any key with value
         """
-
         existing_user = [user for user in users if value == user[key]]
         return len(existing_user) > 0  # if false user does not exist
 
@@ -146,12 +165,12 @@ class UserModel(object):
         """
           method to find a user by ID
         """
-        user = [user for user in users if user['nationalID'] == nationalID]
-        return user[0]  # get the first user to be found with that id
+        user_with_id = [user for user in users if user['nationalID'] == nationalID]
+        return user_with_id[0]  # get the first user to be found with that id
 
     def check_password(self, hash, password):
         """
-          method to check if the passwords match
+         checks if the passwords match before registering user
         """
 
         return check_password_hash(hash, password)

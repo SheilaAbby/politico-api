@@ -1,13 +1,14 @@
 from flask import Blueprint, request, make_response, jsonify
+from .models import PartyModel, OfficeModel, UserModel
+from utils.data_schemas import UserSchema
+from flask_jwt_extended import create_access_token, create_refresh_token
 
-from app.api.V1.models import PartyModel, OfficeModel, UserModel
-
-from flask.views import MethodView
 
 # make a Blueprint route called app_route
 app_route = Blueprint('politico-v1', __name__, url_prefix='/api/v1')
 party = PartyModel()  # creates an instance of the PartyModel class
 office = OfficeModel()
+user = UserModel()
 
 
 @app_route.route('/index', methods=['GET'])
@@ -182,3 +183,50 @@ def get_single_office(id):
             "msg": "An office with that ID does not exist"
         }))
 
+
+@app_route.route('/users', methods=['POST'])
+def post_users():
+    user_data = request.get_json()
+    if not user_data:
+        return jsonify({
+            "status": 400,
+            "message": "Provide all required data"
+        }), 400
+
+    data, errors = UserSchema().load(user_data)  # pass the user data for validation
+
+    if errors:
+        return jsonify({
+            "status": 400,
+            "message": "Invalid data!"
+        })
+
+    if user.check_if_user_exists('nationalID', data['nationalID']):
+        return jsonify({
+            "status": 409,
+            "message": "The national ID already exists"
+        }), 409
+
+    if user.check_if_user_exists('phoneNumber', data['phoneNumber']):
+        return jsonify({
+            "status": 409,
+            "message": "User with that phone number already exists"
+        })
+    if user.check_if_user_exists('email', data['email']):
+        return jsonify({
+            "status": 409,
+            "message": "User with that email exists"
+        })
+    new_user = user.register(data)
+    response = UserSchema(exclude=['password']).dump(new_user).data
+
+    #  generate access tokens
+    access_token = create_access_token(identity=new_user['id'], fresh=True)
+    refresh_token = create_refresh_token(identity=new_user['id'])
+    return jsonify({
+        "status": 201,
+        "data": [{
+            "citizen": response,
+            "message": "Registered successfully!"
+        }]
+    })
